@@ -43,5 +43,10 @@ namespace LibraryApp
                 Console.WriteLine("Can`t return book");
             }
         }
+
+        public override string ToString()
+        {
+            return $"Title: {Title} Author: {Author} Year: {Year} Status: {Status}";
+        }
     }
 }
