@@ -34,10 +34,16 @@
             //{
             //    Console.WriteLine(book);
             //}
+            //var books = library.FindBooksByTitle("1984");
+            //foreach (var book in books)
+            //{
+            //    Console.WriteLine(book);
+            //}
+
             Console.Clear();
             while (true)
             {
-                Console.Clear() ;
+                Console.Clear();
                 Console.WriteLine("\nLibrary Menu:");
                 Console.WriteLine("1. Display All Books");
                 Console.WriteLine("2. Display All Readers");
@@ -60,7 +66,10 @@
                         Console.ReadKey();
                         break;
                     case "2":
+                        Console.Clear();
                         library.DisplayReaders();
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "3":
                         Console.Write("Enter Reader Id: ");
