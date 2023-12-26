@@ -18,31 +18,11 @@
             library.AddReader(reader1);
             library.AddReader(reader2);
 
-            //reader1.BorrowBook(book1);
-            //reader2.BorrowBook(book2);
-
-            //reader1.DisplayBorrowedBooks();
-            //reader2.DisplayBorrowedBooks();
-
-
-            //reader1.ReturnBook(book1);
-
-            //reader1.DisplayBorrowedBooks();
-
-            //var books = library.FindBooksByYear(1949);
-            //foreach (Book book in books)
-            //{
-            //    Console.WriteLine(book);
-            //}
-            //var books = library.FindBooksByTitle("1984");
-            //foreach (var book in books)
-            //{
-            //    Console.WriteLine(book);
-            //}
-
             Console.Clear();
             while (true)
             {
+                //Добавить использование linq методов
+                //Добавить возможность выдачи и приёма книг
                 Console.Clear();
                 Console.WriteLine("\nLibrary Menu:");
                 Console.WriteLine("1. Display All Books");
@@ -56,7 +36,7 @@
 
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
-                
+
                 switch (choice)
                 {
                     case "1":
@@ -83,6 +63,7 @@
                         }
                         break;
                     case "4":
+                        //Доделать проверку на is null or white space
                         Console.Write("Enter Title: ");
                         string title = Console.ReadLine();
                         Console.Write("Enter Author: ");
@@ -99,18 +80,17 @@
                         }
                         break;
                     case "5":
-                    //Console.Write("Enter Title of the Book to Remove: ");
-                    //string bookTitleToRemove = Console.ReadLine();
-                    //Book bookToRemove = (bookTitleToRemove);
-                    //if (bookToRemove != null)
-                    //{
-                    //    library.RemoveBook(bookToRemove);
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine($"Book with title {bookTitleToRemove} not found.");
-                    //}
-                    //break;
+                        Console.Write("Enter Title of the Book to Remove: ");
+                        string bookTitleToRemove = Console.ReadLine();
+                        if (bookTRemove != null)
+                        {
+                            library.RemoveBook(bookToRemove);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Book with title {bookTitleToRemove} not found.");
+                        }
+                        break;
                     case "6":
 
                     case "7":

@@ -71,9 +71,9 @@
                 Console.WriteLine($"Reader with Id {id} not found.");
             }
         }
-        public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title == title);
-        public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author == author);
+        public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.IndexOf(title, StringComparison.OrdinalIgnoreCase) >= 0);
+        public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.IndexOf(author, StringComparison.OrdinalIgnoreCase) >= 0);
         public IEnumerable<Book> FindBooksByYear(int year) => _books.Where(book => book.Year == year);
-        public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name == name);
+        public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0);
     }
 }
