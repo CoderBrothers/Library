@@ -26,6 +26,7 @@
             _readers?.Add(reader);
             Console.WriteLine($"Reader {reader.Name} added to the library.");
         }
+        //Переписать через ID
         public void RemoveBook(Book book)
         {
             if (_books.Contains(book))
@@ -71,9 +72,9 @@
                 Console.WriteLine($"Reader with Id {id} not found.");
             }
         }
-        public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.IndexOf(title, StringComparison.OrdinalIgnoreCase) >= 0);
-        public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.IndexOf(author, StringComparison.OrdinalIgnoreCase) >= 0);
+        public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByYear(int year) => _books.Where(book => book.Year == year);
-        public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0);
+        public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
     }
 }

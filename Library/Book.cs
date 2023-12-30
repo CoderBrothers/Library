@@ -8,6 +8,7 @@ namespace LibraryApp
 {
     public class Book
     {
+        //Прикрутить ID
         private Reservation _reservation;
         public BookStatus Status => _reservation.Status;
         public string Title { get; }

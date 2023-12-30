@@ -10,24 +10,20 @@ namespace LibraryApp
 {
     public class Reader
     {
-        private static int _readerIdCounter = 0;
+        private static int _counter = 0;
 
         public int Id { get; }
         public string Name { get; }
         private List<Book> _borrowedBooks;
 
-        public Reader(int v, string name)
+        public Reader(string name)
         {
-            Id = GenerateUniqueId();
+            _counter++;
+            Id = _counter;
             Name = name;
             _borrowedBooks = new List<Book>();
         }
-
-        private static int GenerateUniqueId()
-        {
-            return Interlocked.Increment(ref _readerIdCounter);
-        }
-
+        public List<Book> GetBorrowedBooks => _borrowedBooks;
         public void BorrowBook(Book book)
         {
             if (book.Status == BookStatus.Available)
