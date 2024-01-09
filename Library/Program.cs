@@ -159,11 +159,10 @@ namespace LibraryApp
                         Console.Write("Enter Reader ID to Remove: ");
                         if (int.TryParse(Console.ReadLine(), out int readerIdToRemove))
                         {
-                            IEnumerable<Reader> readersToRemove = library.FindReadersById(readerIdToRemove);
+                            Reader readerToRemove = library.FindReaderById(readerIdToRemove);
 
-                            if (readersToRemove.Any())
+                            if (readerToRemove != null)
                             {
-                                Reader readerToRemove = readersToRemove.First();
                                 library.RemoveReader(readerToRemove.Id);
                                 Console.WriteLine($"Reader with ID {readerIdToRemove} removed from the library.");
                                 Console.WriteLine("Press any key to continue");
@@ -269,7 +268,7 @@ namespace LibraryApp
                         Console.Write("Enter Reader ID to Borrow Book: ");
                         if (int.TryParse(Console.ReadLine(), out int borrowerID))
                         {
-                            Reader borrower = (Reader)library.FindReadersById(borrowerID);
+                            Reader borrower = library.FindReaderById(borrowerID);
                             if (borrower != null)
                             {
                                 Console.Write("Enter Title of the Book to Borrow: ");
@@ -294,12 +293,14 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid ID format.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "13":
                         Console.Write("Enter Reader ID to Return Book: ");
                         if (int.TryParse(Console.ReadLine(), out int returnerID))
                         {
-                            Reader returner = (Reader)library.FindReadersById(returnerID);
+                            Reader returner = (Reader)library.FindReaderById(returnerID);
                             if (returner != null)
                             {
                                 Console.Write("Enter Title of the Book to Return: ");
