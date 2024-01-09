@@ -11,6 +11,7 @@ namespace LibraryApp
         //Прикрутить ID
         private Reservation _reservation;
         public BookStatus Status => _reservation.Status;
+        public int ID { get; set; }
         public string Title { get; }
         public string Author { get; }
         public int Year { get; }

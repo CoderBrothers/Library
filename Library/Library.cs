@@ -72,6 +72,10 @@
                 Console.WriteLine($"Reader with Id {id} not found.");
             }
         }
+        public Reader FindReaderByID(int id)
+        {
+            return _readers.FirstOrDefault(reader => reader.ID == id);
+        }
         public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByYear(int year) => _books.Where(book => book.Year == year);
