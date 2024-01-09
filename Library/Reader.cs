@@ -11,7 +11,6 @@ namespace LibraryApp
     public class Reader
     {
         private static int _counter = 0;
-
         public int Id { get; }
         public string Name { get; }
         private List<Book> _borrowedBooks;

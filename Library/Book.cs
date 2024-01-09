@@ -8,7 +8,8 @@ namespace LibraryApp
 {
     public class Book
     {
-        //Прикрутить ID
+        private static int _counter = 0;
+        public int Id { get; }
         private Reservation _reservation;
         public BookStatus Status => _reservation.Status;
         public string Title { get; }
@@ -17,6 +18,8 @@ namespace LibraryApp
 
         public Book(string title, string author, int year)
         {
+            _counter++;
+            Id = _counter;
             (Title, Author, Year) = (title, author, year);
             _reservation = new Reservation();
         }
@@ -47,7 +50,7 @@ namespace LibraryApp
 
         public override string ToString()
         {
-            return $"Title: {Title} Author: {Author} Year: {Year} Status: {Status}";
+            return $"Id: {Id} Title: {Title} Author: {Author} Year: {Year} Status: {Status}";
         }
     }
 }

@@ -10,7 +10,6 @@
             _books = new List<Book>();
             _readers = new List<Reader>();
         }
-
         public void AddBook(Book book)
         {
             if (book == null)
@@ -18,7 +17,6 @@
             _books?.Add(book);
             Console.WriteLine($"Book {book.Title} added to the library.");
         }
-
         public void AddReader(Reader reader)
         {
             if (reader == null) 
@@ -26,25 +24,33 @@
             _readers?.Add(reader);
             Console.WriteLine($"Reader {reader.Name} added to the library.");
         }
-        //Переписать через ID
-        public void RemoveBook(Book book)
+        public void RemoveBook(int bookId)
         {
-            if (_books.Contains(book))
+            Book bookToRemove = _books.FirstOrDefault(book => book.Id == bookId);
+
+            if (bookToRemove != null)
             {
-                _books?.Remove(book);
-                Console.WriteLine($"Book {book.Title} removed from the library.");
+                _books?.Remove(bookToRemove);
+                Console.WriteLine($"Book {bookToRemove.Title} removed from the library.");
             }
             else
-                Console.WriteLine($"Book {book.Title} isn`t present.");
-        }
-        public void RemoveReader(Reader reader)
-        {
-            if (_readers.Contains(reader))
             {
-                _readers?.Remove(reader);
-                Console.WriteLine($"Reader {reader.Name} removed from the library.");
+                Console.WriteLine($"Book with ID {bookId} isn't present.");
             }
-            else Console.WriteLine($"Reader {reader.Name} isn`t present.");
+        }
+        public void RemoveReader(int readerId)
+        {
+            Reader readerToRemove = _readers.FirstOrDefault(reader => reader.Id == readerId);
+
+            if (readerToRemove != null)
+            {
+                _readers?.Remove(readerToRemove);
+                Console.WriteLine($"Reader {readerToRemove.Name} with ID {readerToRemove.Id} removed from the library.");
+            }
+            else
+            {
+                Console.WriteLine($"Reader with ID {readerId} isn't present in the library.");
+            }
         }
         public void DisplayBooks()
         {
@@ -75,6 +81,8 @@
         public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByYear(int year) => _books.Where(book => book.Year == year);
+        public IEnumerable<Book> FindBooksById(int id) => _books.Where(book => book.Id == id);
         public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+        public IEnumerable<Reader> FindReadersById(int id) => _readers.Where(reader => reader.Id == id);
     }
 }

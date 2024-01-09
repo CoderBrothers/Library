@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace LibraryApp
 {
@@ -15,8 +16,8 @@ namespace LibraryApp
             library.AddBook(book2);
             library.AddBook(book3);
 
-            Reader reader1 = new Reader(1, "Иван");
-            Reader reader2 = new Reader(2, "Мария");
+            Reader reader1 = new Reader("Иван");
+            Reader reader2 = new Reader("Мария");
             library.AddReader(reader1);
             library.AddReader(reader2);
 
@@ -61,19 +62,20 @@ namespace LibraryApp
                         break;
                     case "3":
                         Console.Clear();
-                        Console.Write("Enter Reader Id: ");
-                        if (int.TryParse(Console.ReadLine(), out int readerId))
+                        Console.Write("Enter Reader ID: ");
+                        if (int.TryParse(Console.ReadLine(), out int displayReaderId))
                         {
-                            library.DisplayReaderBorrowedBooks(readerId);
+                            library.DisplayReaderBorrowedBooks(displayReaderId);
                             Console.WriteLine("Press any key to continue");
                             Console.ReadKey();
                         }
                         else
                         {
-                            Console.WriteLine("Invalid Reader Id.");
+                            Console.WriteLine("Invalid Reader ID.");
                         }
                         break;
                     case "4":
+                        Console.Clear();
                         Console.Write("Enter Title: ");
                         string title = Console.ReadLine();
                         if (string.IsNullOrWhiteSpace(title))
@@ -94,6 +96,9 @@ namespace LibraryApp
                             Book newBook = new Book(title, author, year);
                             library.AddBook(newBook);
                             Console.WriteLine("Book added successfully.");
+                            Console.WriteLine("Press any key to continue");
+                            Console.ReadKey();
+
                         }
                         else
                         {
@@ -101,13 +106,33 @@ namespace LibraryApp
                         }
                         break;
                     case "5":
+                        Console.Clear();
                         Console.Write("Enter Title of the Book to Remove: ");
                         string bookTitleToRemove = Console.ReadLine();
+
+                        if (string.IsNullOrWhiteSpace(bookTitleToRemove))
+                        {
+                            Console.WriteLine("Invalid input. Book title cannot be empty or whitespace.");
+                            break;
+                        }
+
                         IEnumerable<Book> booksToRemove = library.FindBooksByTitle(bookTitleToRemove);
+
                         if (booksToRemove.Any())
                         {
                             Book bookToRemove = booksToRemove.First();
-                            library.RemoveBook(bookToRemove);
+
+                            if (bookToRemove != null)
+                            {
+                                library.RemoveBook(bookToRemove.Id);
+                                Console.WriteLine($"Book {bookToRemove.Title} with ID {bookToRemove.Id} removed from the library.");
+                                Console.WriteLine("Press any key to continue");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error: Book object is null.");
+                            }
                         }
                         else
                         {
@@ -115,6 +140,7 @@ namespace LibraryApp
                         }
                         break;
                     case "6":
+                        Console.Clear();
                         Console.Write("Enter Reader's Name: ");
                         string readerName = Console.ReadLine();
                         if (string.IsNullOrWhiteSpace(readerName))
@@ -122,13 +148,39 @@ namespace LibraryApp
                             Console.WriteLine("Reader's Name cannot be null or empty. Please enter a valid name.");
                             break;
                         }
-                        Reader newReader = new Reader(0, readerName);
+                        Reader newReader = new Reader(readerName);
                         library.AddReader(newReader);
                         Console.WriteLine($"Reader {readerName} added successfully.");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "7":
+                        Console.Clear();
+                        Console.Write("Enter Reader ID to Remove: ");
+                        if (int.TryParse(Console.ReadLine(), out int readerIdToRemove))
+                        {
+                            IEnumerable<Reader> readersToRemove = library.FindReadersById(readerIdToRemove);
+
+                            if (readersToRemove.Any())
+                            {
+                                Reader readerToRemove = readersToRemove.First();
+                                library.RemoveReader(readerToRemove.Id);
+                                Console.WriteLine($"Reader with ID {readerIdToRemove} removed from the library.");
+                                Console.WriteLine("Press any key to continue");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Reader with ID {readerIdToRemove} not found.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Reader ID.");
+                        }
                         break;
                     case "8":
+                        Console.Clear();
                         Console.Write("Enter Title to Find: ");
                         string titleToFind = Console.ReadLine();
                         var foundBooksByTitle = library.FindBooksByTitle(titleToFind);
@@ -139,14 +191,16 @@ namespace LibraryApp
                             {
                                 Console.WriteLine(book);
                             }
+                            Console.WriteLine("Press any key to continue");
+                            Console.ReadKey();
                         }
                         else
                         {
                             Console.WriteLine($"No books found with title: {titleToFind}");
                         }
                         break;
-
                     case "9":
+                        Console.Clear();
                         Console.Write("Enter Author to Find: ");
                         string authorToFind = Console.ReadLine();
                         var foundBooksByAuthor = library.FindBooksByAuthor(authorToFind);
@@ -157,14 +211,16 @@ namespace LibraryApp
                             {
                                 Console.WriteLine(book);
                             }
+                            Console.WriteLine("Press any key to continue");
+                            Console.ReadKey();
                         }
                         else
                         {
                             Console.WriteLine($"No books found by author: {authorToFind}");
                         }
                         break;
-
                     case "10":
+                        Console.Clear();
                         Console.Write("Enter Year to Find: ");
                         if (int.TryParse(Console.ReadLine(), out int yearToFind))
                         {
@@ -176,6 +232,8 @@ namespace LibraryApp
                                 {
                                     Console.WriteLine(book);
                                 }
+                                Console.WriteLine("Press any key to continue");
+                                Console.ReadKey();
                             }
                             else
                             {
@@ -187,8 +245,8 @@ namespace LibraryApp
                             Console.WriteLine("Invalid input. Please enter a valid year.");
                         }
                         break;
-
                     case "11":
+                        Console.Clear();
                         Console.Write("Enter Reader Name to Find: ");
                         string readerNameToFind = Console.ReadLine();
                         var foundReadersByName = library.FindReadersByName(readerNameToFind);
@@ -199,61 +257,72 @@ namespace LibraryApp
                             {
                                 Console.WriteLine(reader);
                             }
+                            Console.WriteLine("Press any key to continue");
+                            Console.ReadKey();
                         }
                         else
                         {
                             Console.WriteLine($"No readers found with name: {readerNameToFind}");
                         }
                         break;
-                        //Реализовать кейсы 12 и 13 и 3 через ID
                     case "12":
-                        Console.Write("Enter Reader Name to Borrow Book: ");
-                        string borrowerName = Console.ReadLine();
-                        var borrowers = library.FindReadersByName(borrowerName);
-                        if (borrowers.Any())
+                        Console.Write("Enter Reader ID to Borrow Book: ");
+                        if (int.TryParse(Console.ReadLine(), out int borrowerID))
                         {
-                            Reader borrower = borrowers.First();
-                            Console.Write("Enter Title of the Book to Borrow: ");
-                            string bookTitleToBorrow = Console.ReadLine();
-                            IEnumerable<Book> booksToBorrow = library.FindBooksByTitle(bookTitleToBorrow);
-                            if (booksToBorrow.Any())
+                            Reader borrower = (Reader)library.FindReadersById(borrowerID);
+                            if (borrower != null)
                             {
-                                Book bookToBorrow = booksToBorrow.First();
-                                borrower.BorrowBook(bookToBorrow);
+                                Console.Write("Enter Title of the Book to Borrow: ");
+                                string bookTitleToBorrow = Console.ReadLine();
+                                IEnumerable<Book> booksToBorrow = library.FindBooksByTitle(bookTitleToBorrow);
+                                if (booksToBorrow.Any())
+                                {
+                                    Book bookToBorrow = booksToBorrow.First();
+                                    borrower.BorrowBook(bookToBorrow);
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Book with title {bookTitleToBorrow} not found.");
+                                }
                             }
                             else
                             {
-                                Console.WriteLine($"Book with title {bookTitleToBorrow} not found.");
+                                Console.WriteLine($"Reader with ID {borrowerID} not found.");
                             }
                         }
                         else
                         {
-                            Console.WriteLine($"Reader with name {borrowerName} not found.");
+                            Console.WriteLine("Invalid ID format.");
                         }
                         break;
                     case "13":
-                        Console.Write("Enter Reader Name to Return Book: ");
-                        string returnerName = Console.ReadLine();
-                        var returners = library.FindReadersByName(returnerName);
-                        if (returners.Any())
+                        Console.Write("Enter Reader ID to Return Book: ");
+                        if (int.TryParse(Console.ReadLine(), out int returnerID))
                         {
-                            Reader returner = returners.First();
-                            Console.Write("Enter Title of the Book to Return: ");
-                            string bookTitleToReturn = Console.ReadLine();
-                            IEnumerable<Book> booksToReturn = returner.GetBorrowedBooks().Where(book => book.Title.Equals(bookTitleToReturn, StringComparison.OrdinalIgnoreCase));
-                            if (booksToReturn.Any())
+                            Reader returner = (Reader)library.FindReadersById(returnerID);
+                            if (returner != null)
                             {
-                                Book bookToReturn = booksToReturn.First();
-                                returner.ReturnBook(bookToReturn);
+                                Console.Write("Enter Title of the Book to Return: ");
+                                string bookTitleToReturn = Console.ReadLine();
+                                IEnumerable<Book> booksToReturn = returner.GetBorrowedBooks.Where(book => book.Title.Equals(bookTitleToReturn, StringComparison.OrdinalIgnoreCase));
+                                if (booksToReturn.Any())
+                                {
+                                    Book bookToReturn = booksToReturn.First();
+                                    returner.ReturnBook(bookToReturn);
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Book with title {bookTitleToReturn} not found in the borrowed books of Reader with ID {returnerID}.");
+                                }
                             }
                             else
                             {
-                                Console.WriteLine($"Book with title {bookTitleToReturn} not found in the borrowed books of Reader {returner.Name}.");
+                                Console.WriteLine($"Reader with ID {returnerID} not found.");
                             }
                         }
                         else
                         {
-                            Console.WriteLine($"Reader with name {returnerName} not found.");
+                            Console.WriteLine("Invalid ID format.");
                         }
                         break;
                     case "14":
