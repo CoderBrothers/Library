@@ -24,8 +24,6 @@ namespace LibraryApp
             Console.Clear();
             while (true)
             {
-                //Добавить использование linq методов
-                //Добавить возможность выдачи и приёма книг
                 Console.Clear();
                 Console.WriteLine("\nLibrary Menu:");
                 Console.WriteLine("1. Display All Books");
@@ -45,23 +43,20 @@ namespace LibraryApp
 
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
-
+                Console.Clear();
                 switch (choice)
                 {
                     case "1":
-                        Console.Clear();
                         library.DisplayBooks();
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
                     case "2":
-                        Console.Clear();
                         library.DisplayReaders();
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
                     case "3":
-                        Console.Clear();
                         Console.Write("Enter Reader ID: ");
                         if (int.TryParse(Console.ReadLine(), out int displayReaderId))
                         {
@@ -73,9 +68,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid Reader ID.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "4":
-                        Console.Clear();
                         Console.Write("Enter Title: ");
                         string title = Console.ReadLine();
                         if (string.IsNullOrWhiteSpace(title))
@@ -104,9 +100,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid Year.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "5":
-                        Console.Clear();
                         Console.Write("Enter Title of the Book to Remove: ");
                         string bookTitleToRemove = Console.ReadLine();
 
@@ -138,9 +135,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine($"Book with title {bookTitleToRemove} not found.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "6":
-                        Console.Clear();
                         Console.Write("Enter Reader's Name: ");
                         string readerName = Console.ReadLine();
                         if (string.IsNullOrWhiteSpace(readerName))
@@ -177,9 +175,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid Reader ID.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "8":
-                        Console.Clear();
                         Console.Write("Enter Title to Find: ");
                         string titleToFind = Console.ReadLine();
                         var foundBooksByTitle = library.FindBooksByTitle(titleToFind);
@@ -197,9 +196,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine($"No books found with title: {titleToFind}");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "9":
-                        Console.Clear();
                         Console.Write("Enter Author to Find: ");
                         string authorToFind = Console.ReadLine();
                         var foundBooksByAuthor = library.FindBooksByAuthor(authorToFind);
@@ -217,9 +217,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine($"No books found by author: {authorToFind}");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "10":
-                        Console.Clear();
                         Console.Write("Enter Year to Find: ");
                         if (int.TryParse(Console.ReadLine(), out int yearToFind))
                         {
@@ -243,9 +244,10 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid input. Please enter a valid year.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "11":
-                        Console.Clear();
                         Console.Write("Enter Reader Name to Find: ");
                         string readerNameToFind = Console.ReadLine();
                         var foundReadersByName = library.FindReadersByName(readerNameToFind);
@@ -263,6 +265,8 @@ namespace LibraryApp
                         {
                             Console.WriteLine($"No readers found with name: {readerNameToFind}");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "12":
                         Console.Write("Enter Reader ID to Borrow Book: ");
@@ -325,12 +329,16 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid ID format.");
                         }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                     case "14":
                         Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please enter a valid option.");
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
                         break;
                 }
             }
