@@ -19,7 +19,7 @@ namespace LibraryApp
             Reader reader1 = new Reader("Иван");
             Reader reader2 = new Reader("Мария");
             library.AddReader(reader1);
-            library.AddReader(reader2);
+            library.AddReader(reader2); 
 
             Console.Clear();
             while (true)
@@ -104,36 +104,28 @@ namespace LibraryApp
                         Console.ReadKey();
                         break;
                     case "5":
-                        Console.Write("Enter Title of the Book to Remove: ");
-                        string bookTitleToRemove = Console.ReadLine();
-
-                        if (string.IsNullOrWhiteSpace(bookTitleToRemove))
+                        Console.Write("Enter ID of the Book to Remove: ");
+                        if (!int.TryParse(Console.ReadLine(), out int bookIdToRemove))
                         {
-                            Console.WriteLine("Invalid input. Book title cannot be empty or whitespace.");
+                            Console.WriteLine("Invalid input. Please enter a valid numeric ID.");
                             break;
                         }
-
-                        IEnumerable<Book> booksToRemove = library.FindBooksByTitle(bookTitleToRemove);
-
-                        if (booksToRemove.Any())
+                        Book bookToRemoveById = library.FindBookById(bookIdToRemove);
+                        if (bookToRemoveById != null)
                         {
-                            Book bookToRemove = booksToRemove.First();
-
-                            if (bookToRemove != null)
+                            if(bookToRemoveById.Status == BookStatus.Available)
                             {
-                                library.RemoveBook(bookToRemove.Id);
-                                Console.WriteLine($"Book {bookToRemove.Title} with ID {bookToRemove.Id} removed from the library.");
+                                library.RemoveBook(bookToRemoveById.Id);
+                                Console.WriteLine($"Book {bookToRemoveById.Title} with ID {bookToRemoveById.Id} removed from the library.");
                                 Console.WriteLine("Press any key to continue");
                                 Console.ReadKey();
                             }
                             else
-                            {
-                                Console.WriteLine("Error: Book object is null.");
-                            }
+                                Console.WriteLine($"Book with ID {bookIdToRemove} is already reserved");
                         }
                         else
                         {
-                            Console.WriteLine($"Book with title {bookTitleToRemove} not found.");
+                            Console.WriteLine($"Book with ID {bookIdToRemove} not found.");
                         }
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
@@ -222,7 +214,7 @@ namespace LibraryApp
                         break;
                     case "10":
                         Console.Write("Enter Year to Find: ");
-                        if (int.TryParse(Console.ReadLine(), out int yearToFind))
+                        if (int.TryParse(Console.ReadLine(), out int yearToFind) && yearToFind > 0)
                         {
                             var foundBooksByYear = library.FindBooksByYear(yearToFind);
                             if (foundBooksByYear.Any())
@@ -275,17 +267,22 @@ namespace LibraryApp
                             Reader borrower = library.FindReaderById(borrowerID);
                             if (borrower != null)
                             {
-                                Console.Write("Enter Title of the Book to Borrow: ");
-                                string bookTitleToBorrow = Console.ReadLine();
-                                IEnumerable<Book> booksToBorrow = library.FindBooksByTitle(bookTitleToBorrow);
-                                if (booksToBorrow.Any())
+                                Console.Write("Enter ID of the Book to Borrow: ");
+                                if (int.TryParse(Console.ReadLine(), out int bookIdToBorrow))
                                 {
-                                    Book bookToBorrow = booksToBorrow.First();
-                                    borrower.BorrowBook(bookToBorrow);
+                                    Book bookToBorrow = library.FindBookById(bookIdToBorrow);
+                                    if (bookToBorrow != null)
+                                    {
+                                        borrower.BorrowBook(bookToBorrow);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Book with ID {bookIdToBorrow} not found.");
+                                    }
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"Book with title {bookTitleToBorrow} not found.");
+                                    Console.WriteLine("Invalid Book ID format.");
                                 }
                             }
                             else
@@ -304,20 +301,25 @@ namespace LibraryApp
                         Console.Write("Enter Reader ID to Return Book: ");
                         if (int.TryParse(Console.ReadLine(), out int returnerID))
                         {
-                            Reader returner = (Reader)library.FindReaderById(returnerID);
+                            Reader returner = library.FindReaderById(returnerID);
                             if (returner != null)
                             {
-                                Console.Write("Enter Title of the Book to Return: ");
-                                string bookTitleToReturn = Console.ReadLine();
-                                IEnumerable<Book> booksToReturn = returner.GetBorrowedBooks.Where(book => book.Title.Equals(bookTitleToReturn, StringComparison.OrdinalIgnoreCase));
-                                if (booksToReturn.Any())
+                                Console.Write("Enter ID of the Book to Return: ");
+                                if (int.TryParse(Console.ReadLine(), out int bookIdToReturn))
                                 {
-                                    Book bookToReturn = booksToReturn.First();
-                                    returner.ReturnBook(bookToReturn);
+                                    Book bookToReturn = library.FindBookById(bookIdToReturn);
+                                    if (bookToReturn != null)
+                                    {
+                                        returner.ReturnBook(bookToReturn);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Book with ID {bookIdToReturn} not found.");
+                                    }
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"Book with title {bookTitleToReturn} not found in the borrowed books of Reader with ID {returnerID}.");
+                                    Console.WriteLine("Invalid Book ID format.");
                                 }
                             }
                             else

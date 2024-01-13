@@ -81,7 +81,7 @@
         public IEnumerable<Book> FindBooksByTitle(string title) => _books.Where(book => book.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByAuthor(string author) => _books.Where(book => book.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
         public IEnumerable<Book> FindBooksByYear(int year) => _books.Where(book => book.Year == year);
-        public IEnumerable<Book> FindBooksById(int id) => _books.Where(book => book.Id == id);
+        public Book FindBookById(int id) => _books.FirstOrDefault(book => book.Id == id);
         public IEnumerable<Reader> FindReadersByName(string name) => _readers.Where(reader => reader.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
         public Reader FindReaderById(int id) => _readers.FirstOrDefault(reader => reader.Id == id);
     }
