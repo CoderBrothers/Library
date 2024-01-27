@@ -1,4 +1,6 @@
-﻿namespace LibraryApp
+﻿using static System.Reflection.Metadata.BlobBuilder;
+
+namespace LibraryApp
 {
     public class Library
     {
@@ -24,34 +26,42 @@
             _readers?.Add(reader);
             Console.WriteLine($"Reader {reader.Name} added to the library.");
         }
-        public void RemoveBook(int bookId)
-        {
-            Book bookToRemove = _books.FirstOrDefault(book => book.Id == bookId);
-
-            if (bookToRemove != null)
-            {
-                _books?.Remove(bookToRemove);
-                Console.WriteLine($"Book {bookToRemove.Title} removed from the library.");
-            }
-            else
-            {
-                Console.WriteLine($"Book with ID {bookId} isn't present.");
-            }
-        }
         public void RemoveReader(int readerId)
         {
             Reader readerToRemove = _readers.FirstOrDefault(reader => reader.Id == readerId);
 
             if (readerToRemove != null)
             {
-                _readers?.Remove(readerToRemove);
-                Console.WriteLine($"Reader {readerToRemove.Name} with ID {readerToRemove.Id} removed from the library.");
+                foreach (Book borrowedBook in readerToRemove.GetBorrowedBooks.ToList())
+                {
+                    RemoveBook(borrowedBook.Id);
+                }
+
+                _readers.Remove(readerToRemove);
+                Console.WriteLine($"Reader with ID {readerId} removed from the library, and all borrowed books deleted.");
             }
             else
             {
-                Console.WriteLine($"Reader with ID {readerId} isn't present in the library.");
+                Console.WriteLine($"Reader with ID {readerId} not found.");
             }
         }
+
+        public void RemoveBook(int bookId)
+        {
+            Book bookToRemove = _books.FirstOrDefault(book => book.Id == bookId);
+
+            if (bookToRemove != null)
+            {
+                // Удаляем книгу из списка книг в библиотеке
+                _books.Remove(bookToRemove);
+                Console.WriteLine($"Book with ID {bookId} removed from the library.");
+            }
+            else
+            {
+                Console.WriteLine($"Book with ID {bookId} not found.");
+            }
+        }
+
         public void DisplayBooks()
         {
             foreach (Book book in _books)

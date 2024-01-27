@@ -19,7 +19,7 @@ namespace LibraryApp
             Reader reader1 = new Reader("Иван");
             Reader reader2 = new Reader("Мария");
             library.AddReader(reader1);
-            library.AddReader(reader2); 
+            library.AddReader(reader2);
 
             Console.Clear();
             while (true)
@@ -167,6 +167,7 @@ namespace LibraryApp
                         {
                             Console.WriteLine("Invalid Reader ID.");
                         }
+                        library.RemoveReader(readerIdToRemove);
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
@@ -322,7 +323,7 @@ namespace LibraryApp
                                     Console.WriteLine("Invalid Book ID format.");
                                 }
                             }
-                            else
+                            else    
                             {
                                 Console.WriteLine($"Reader with ID {returnerID} not found.");
                             }

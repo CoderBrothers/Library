@@ -41,15 +41,16 @@ namespace LibraryApp
         {
             if (_borrowedBooks.Contains(book))
             {
-                book.ReturnBook();
                 _borrowedBooks.Remove(book);
-                Console.WriteLine("Book returned");
+                book.ReturnBook();
+                Console.WriteLine($"Book '{book.Title}' with ID {book.Id} returned successfully.");
             }
             else
             {
-                Console.WriteLine("Can't return book");
+                Console.WriteLine($"Error: Book '{book.Title}' with ID {book.Id} was not borrowed by this reader.");
             }
         }
+
 
         public void DisplayBorrowedBooks()
         {
